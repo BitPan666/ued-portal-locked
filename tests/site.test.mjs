@@ -7,6 +7,7 @@ import { createRequire } from 'node:module';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const html = readFileSync(join(root, 'index.html'), 'utf8');
+const css = existsSync(join(root, 'styles.css')) ? readFileSync(join(root, 'styles.css'), 'utf8') : '';
 const require = createRequire(import.meta.url);
 
 const count = (pattern) => [...html.matchAll(pattern)].length;
@@ -88,5 +89,29 @@ test('search helpers normalize and match Chinese and Latin metadata', () => {
   assert.equal(matchesSearchRecord('设计 Skill Qfn-list-page @潘越', '蓝湖'), false);
   assert.equal(isSafeExternalUrl('https://www.figma.com/design/example'), true);
   assert.equal(isSafeExternalUrl('javascript:alert(1)'), false);
+});
+
+test('defines the restrained Linear-inspired color system', () => {
+  assert.match(css, /--bg:\s*#08090d/i);
+  assert.match(css, /--surface:\s*#0d0f15/i);
+  assert.match(css, /--accent:\s*#6e72ff/i);
+  assert.match(css, /--line:\s*rgba\(255,\s*255,\s*255,\s*\.0[6-9]\)/i);
+});
+
+test('uses thin lines, sticky anchors, and an explicit focus state', () => {
+  assert.match(css, /border:\s*1px solid var\(--line\)/i);
+  assert.match(css, /\.anchor-wrap\s*\{[^}]*position:\s*sticky/is);
+  assert.match(css, /:focus-visible\s*\{/i);
+});
+
+test('includes desktop-to-mobile breakpoints and reduced motion', () => {
+  assert.match(css, /@media\s*\(max-width:\s*900px\)/i);
+  assert.match(css, /@media\s*\(max-width:\s*640px\)/i);
+  assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)/i);
+});
+
+test('includes fine-grid and scroll-progress treatments', () => {
+  assert.match(css, /linear-gradient\([^;]+1px/is);
+  assert.match(css, /--scroll-progress/i);
 });
 
