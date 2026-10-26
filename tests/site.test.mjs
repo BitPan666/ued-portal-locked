@@ -76,19 +76,23 @@ test('marks searchable records and unavailable entries explicitly', () => {
 
 test('loads standalone style and behavior files', () => {
   assert.match(html, /<link[^>]+href="styles\.css"/);
+  assert.match(html, /<link[^>]+rel="icon"[^>]+href="data:image\/svg\+xml,/);
   assert.match(html, /<script[^>]+src="app\.js"[^>]*defer/);
   assert.ok(existsSync(join(root, 'styles.css')));
   assert.ok(existsSync(join(root, 'app.js')));
 });
 
 test('search helpers normalize and match Chinese and Latin metadata', () => {
-  const { normalizeSearch, matchesSearchRecord, isSafeExternalUrl } = require(join(root, 'app.js'));
+  const { normalizeSearch, matchesSearchRecord, isSafeExternalUrl, shouldRecenterSearch } = require(join(root, 'app.js'));
   assert.equal(normalizeSearch('  QFN  LIST  '), 'qfn list');
   assert.equal(matchesSearchRecord('设计 Skill Qfn-list-page @潘越', 'QFN'), true);
   assert.equal(matchesSearchRecord('设计 Skill Qfn-list-page @潘越', '潘越'), true);
   assert.equal(matchesSearchRecord('设计 Skill Qfn-list-page @潘越', '蓝湖'), false);
   assert.equal(isSafeExternalUrl('https://www.figma.com/design/example'), true);
   assert.equal(isSafeExternalUrl('javascript:alert(1)'), false);
+  assert.equal(shouldRecenterSearch('', 'qfn'), true);
+  assert.equal(shouldRecenterSearch('q', 'qfn'), false);
+  assert.equal(shouldRecenterSearch('qfn', ''), false);
 });
 
 test('defines the restrained Linear-inspired color system', () => {
@@ -107,6 +111,7 @@ test('uses thin lines, sticky anchors, and an explicit focus state', () => {
 test('includes desktop-to-mobile breakpoints and reduced motion', () => {
   assert.match(css, /@media\s*\(max-width:\s*900px\)/i);
   assert.match(css, /@media\s*\(max-width:\s*640px\)/i);
+  assert.match(css, /@media\s*\(max-width:\s*640px\)[\s\S]*?\.hero h1\s*\{[^}]*font-size:\s*clamp\(42px,\s*11\.5vw,\s*50px\)/i);
   assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)/i);
 });
 

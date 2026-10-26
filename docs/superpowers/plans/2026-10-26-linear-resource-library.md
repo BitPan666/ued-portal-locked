@@ -88,9 +88,9 @@
 - Consumes: the completed static site.
 - Produces: browser screenshots, responsive verification, and a pushed redesign branch.
 
-- [ ] **Step 1: Serve the site locally and verify desktop rendering, anchor navigation, search, configured links, and pending states.**
-- [ ] **Step 2: Verify tablet and mobile layouts and reduced-motion behavior.**
-- [ ] **Step 3: Run `node --test tests/site.test.mjs` and confirm a clean final result.**
+- [x] **Step 1: Serve the site locally and verify desktop rendering, anchor navigation, search, configured links, and pending states.**
+- [x] **Step 2: Verify tablet and mobile layouts and reduced-motion behavior.**
+- [x] **Step 3: Run `node --test tests/site.test.mjs` and confirm a clean final result.**
 - [ ] **Step 4: Push `redesign/linear-resource-library` to `BitPan666/ued-portal-locked`.**
 - [ ] **Step 5: Present the local/branch preview and ask before publishing or merging to GitHub Pages.**
 
