@@ -68,6 +68,22 @@ test('uses semantic landmarks and anchor-only section navigation', () => {
   }
 });
 
+test('keeps the anchor bar and section headings visually concise', () => {
+  assert.doesNotMatch(html, /class="anchor-caption"/);
+  assert.doesNotMatch(html, />资源目录</);
+  assert.equal(count(/class="section-index"/g), 0);
+  assert.equal(count(/<div class="section-heading"><div><h2/g), 5);
+  for (const label of ['DAILY ENTRY POINTS', 'DESIGN CAPABILITY', 'EFFICIENCY TOOLKIT', 'TEAM-OWNED SYSTEM', 'TEAM KNOWLEDGE']) {
+    assert.ok(!html.includes(label), `unexpected fragmented heading label: ${label}`);
+  }
+});
+
+test('uses a real team visual in the featured banner', () => {
+  assert.match(html, /class="featured-card"[^>]*>[\s\S]*?<img[^>]+src="assets\/skill-tech-kv\.jpg"[^>]+alt="品牌科技主视觉预览"/);
+  assert.match(html, /class="featured-card"[^>]*>[\s\S]*?<strong>品牌科技主视觉<\/strong>[\s\S]*?<p>生成高质量品牌创意海报<\/p>/);
+  assert.doesNotMatch(html, /class="featured-orbit"/);
+});
+
 test('marks searchable records and unavailable entries explicitly', () => {
   assert.equal(count(/class="[^"]*resource-item\b/g), 27);
   assert.match(html, /aria-disabled="true"/);
