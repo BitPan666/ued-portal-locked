@@ -78,10 +78,17 @@ test('keeps the anchor bar and section headings visually concise', () => {
   }
 });
 
-test('uses a real team visual in the featured banner', () => {
-  assert.match(html, /class="featured-card"[^>]*>[\s\S]*?<img[^>]+src="assets\/skill-tech-kv\.jpg"[^>]+alt="品牌科技主视觉预览"/);
-  assert.match(html, /class="featured-card"[^>]*>[\s\S]*?<strong>品牌科技主视觉<\/strong>[\s\S]*?<p>生成高质量品牌创意海报<\/p>/);
-  assert.doesNotMatch(html, /class="featured-orbit"/);
+test('uses the first hero column as a real resource banner instead of a slogan', () => {
+  assert.match(html, /class="hero-banner"[^>]+href="#assets"/);
+  assert.match(html, /本周推荐 · NEW/);
+  assert.match(html, /设计资产管理规范[\s\S]*?2\.0/);
+  assert.match(html, /ASSET[\s\S]*?SYSTEM/);
+  assert.match(html, /27 项资源 · 5 个分类/);
+  assert.match(html, /查看更新内容/);
+  assert.doesNotMatch(html, /class="hero-copy"/);
+  assert.doesNotMatch(html, /找到团队/);
+  assert.doesNotMatch(html, /class="hero-stats"/);
+  assert.doesNotMatch(html, /class="featured-card"/);
 });
 
 test('marks searchable records and unavailable entries explicitly', () => {
@@ -127,7 +134,7 @@ test('uses thin lines, sticky anchors, and an explicit focus state', () => {
 test('includes desktop-to-mobile breakpoints and reduced motion', () => {
   assert.match(css, /@media\s*\(max-width:\s*900px\)/i);
   assert.match(css, /@media\s*\(max-width:\s*640px\)/i);
-  assert.match(css, /@media\s*\(max-width:\s*640px\)[\s\S]*?\.hero h1\s*\{[^}]*font-size:\s*clamp\(42px,\s*11\.5vw,\s*50px\)/i);
+  assert.match(css, /@media\s*\(max-width:\s*640px\)[\s\S]*?\.banner-copy\s*>\s*strong\s*\{[^}]*font-size:\s*clamp\(36px,\s*10vw,\s*42px\)/i);
   assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)/i);
 });
 

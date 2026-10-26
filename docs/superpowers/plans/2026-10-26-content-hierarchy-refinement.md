@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Simplify navigation and section headings while replacing the abstract featured card with real team work.
+**Goal:** Simplify navigation and section headings while making the first hero column an actual featured-resource banner rather than a slogan.
 
 **Architecture:** Keep the existing static HTML/CSS/JavaScript architecture. Change only the affected markup and presentation rules; existing resource records and behavior remain untouched.
 
@@ -32,7 +32,7 @@
 - Test: `tests/site.test.mjs`
 
 **Interfaces:**
-- Consumes: existing `.featured-card`, `.anchor-nav`, and `.section-heading` markup.
+- Consumes: existing `.hero`, `.anchor-nav`, and `.section-heading` markup.
 - Produces: simplified markup while preserving stable section IDs and `.resource-item` records.
 
 - [x] **Step 1: Add failing contract tests for the simplified anchor, headings, and real featured visual.**
@@ -41,3 +41,10 @@
 - [x] **Step 4: Update desktop and mobile CSS for the simplified structure.**
 - [x] **Step 5: Run automated and browser verification.**
 - [x] **Step 6: Commit and push the redesign branch.**
+
+### Correction: featured resource banner
+
+- [x] **Step 1: Add a failing contract test that rejects slogan and statistics markup.**
+- [x] **Step 2: Replace the full left hero column with the actual「设计资产管理规范 2.0」banner.**
+- [x] **Step 3: Verify desktop, mobile, search, and anchor behavior.**
+- [x] **Step 4: Commit and push the correction.**
