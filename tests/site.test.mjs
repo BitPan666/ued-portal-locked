@@ -119,4 +119,3 @@ test('includes fine-grid and scroll-progress treatments', () => {
   assert.match(css, /linear-gradient\([^;]+1px/is);
   assert.match(css, /--scroll-progress/i);
 });
-

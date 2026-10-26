@@ -93,4 +93,3 @@
 - [x] **Step 3: Run `node --test tests/site.test.mjs` and confirm a clean final result.**
 - [x] **Step 4: Push `redesign/linear-resource-library` to `BitPan666/ued-portal-locked`.**
 - [x] **Step 5: Present the local/branch preview and ask before publishing or merging to GitHub Pages.**
-

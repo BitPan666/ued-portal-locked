@@ -40,4 +40,3 @@ if (missing.length) {
 }
 
 console.log(`Extracted ${extracted.size} assets to ${outputDir}`);
-
