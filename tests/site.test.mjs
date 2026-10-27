@@ -142,3 +142,19 @@ test('includes fine-grid and scroll-progress treatments', () => {
   assert.match(css, /linear-gradient\([^;]+1px/is);
   assert.match(css, /--scroll-progress/i);
 });
+
+test('uses a numbered positioning rail and editorial resource grids', () => {
+  assert.match(css, /\.anchor-nav\s*\{[^}]*counter-reset:\s*resource-nav/is);
+  assert.match(css, /\.anchor-nav\s+a::before\s*\{[^}]*counter-increment:\s*resource-nav/is);
+  assert.match(css, /\.platform-grid\s*\{[^}]*grid-template-columns:\s*repeat\(12,/is);
+  assert.match(css, /\.skills-grid\s*\{[^}]*grid-template-columns:\s*repeat\(12,/is);
+  assert.match(css, /\.assets-grid\s*\{[^}]*grid-template-columns:\s*repeat\(6,/is);
+  assert.match(css, /\.team-asset:first-child\s*\{[^}]*grid-column:\s*1\s*\/\s*-1/is);
+});
+
+test('turns the featured resource into a system diagram rather than a generic promo tile', () => {
+  assert.match(html, /class="visual-header"/);
+  assert.match(html, /class="visual-orbit"/);
+  for (const label of ['命名', '归档', '复用', '维护']) assert.ok(html.includes(label));
+  assert.match(css, /\.visual-orbit\s*\{[^}]*radial-gradient/is);
+});
