@@ -210,11 +210,14 @@ img { display: block; max-width: 100%; }
 .section-count { align-self: end; padding-bottom: 3px; color: var(--quiet); font-size: 10px; }
 .section-count b { color: var(--text-soft); font: 500 11px var(--mono); }
 
-.platform-band.resource-section { min-height: 64px; display: flex; align-items: center; justify-content: center; margin-bottom: 28px; padding: 8px 0; border-top: 0; border-bottom: 1px solid var(--line); scroll-margin-top: calc(var(--header-height) + var(--anchor-height) + 16px); }
+.platform-band.resource-section { min-height: 64px; display: flex; align-items: center; justify-content: center; margin-bottom: 28px; padding: 8px 0; border-top: 0; border-bottom: 0; scroll-margin-top: calc(var(--header-height) + var(--anchor-height) + 16px); }
 .platform-band.resource-section::before, .platform-band.resource-section::after { display: none; }
 .platform-band-label { position: relative; align-self: stretch; display: flex; align-items: center; padding: 0 28px 0 0; color: var(--quiet); font: 10px var(--mono); letter-spacing: .08em; white-space: nowrap; }
+.platform-band-label::after { content: ""; position: absolute; right: 0; top: 50%; width: 1px; height: 18px; background: var(--line); transform: translateY(-50%); }
 .platform-grid { min-width: 0; display: flex; align-items: center; justify-content: center; }
 .platform-card { position: relative; min-width: 0; min-height: 40px; display: inline-flex; align-items: center; gap: 10px; padding: 0 26px; color: var(--muted); transition: color .2s ease, opacity .2s ease; }
+.platform-card::after { content: ""; position: absolute; right: 0; top: 50%; width: 1px; height: 18px; background: var(--line); transform: translateY(-50%); }
+.platform-card:last-child::after { display: none; }
 .platform-card:hover { color: var(--text); }
 .platform-symbol { width: 23px; height: 23px; display: grid; flex: 0 0 auto; place-items: center; color: currentColor; }
 .platform-symbol svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }

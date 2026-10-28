@@ -183,8 +183,8 @@ test('places the project matrix between updates and the compact platform strip',
   assert.equal(count(/class="platform-symbol(?:\s|\")/g), 7);
   assert.equal(count(/class="platform-symbol platform-symbol-brand"/g), 2);
   assert.match(css, /\.platform-symbol svg\s*\{[^}]*stroke-linecap:\s*round/is);
-  assert.match(css, /\.platform-band\.resource-section\s*\{[^}]*display:\s*flex/is);
-  assert.doesNotMatch(css, /\.platform-(?:card|band-label)::after\s*\{/i);
+  assert.match(css, /\.platform-band\.resource-section\s*\{[^}]*display:\s*flex[^}]*border-bottom:\s*0/is);
+  assert.match(css, /\.platform-card::after\s*\{[^}]*height:\s*18px/is);
   assert.match(css, /\.project-showcase\.resource-section\s*\{[^}]*padding:\s*54px 0 8px/is);
   assert.match(css, /\.platform-band\.resource-section\s*\{[^}]*margin-bottom:\s*28px/is);
   assert.doesNotMatch(html.match(/<section class="platform-band[\s\S]*?<\/section>/)?.[0] ?? '', /<i>›<\/i>/);
