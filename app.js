@@ -8,9 +8,12 @@
     const search = doc.querySelector('#resource-search');
     const items = [...doc.querySelectorAll('.resource-item')];
     const sections = [...doc.querySelectorAll('.resource-section')];
+    const projectGroups = [...doc.querySelectorAll('.project-group')];
     const status = doc.querySelector('.search-status');
     const empty = doc.querySelector('.search-empty');
     const anchors = [...doc.querySelectorAll('.anchor-nav a')];
+    const hero = doc.querySelector('.hero');
+    const focusSearchButtons = [...doc.querySelectorAll('[data-focus-search]')];
     const total = items.length;
     let previousQuery = '';
     doc.querySelectorAll('a[target="_blank"]').forEach((link) => { if (!isSafeExternalUrl(link.href)) { link.removeAttribute('href'); link.setAttribute('aria-disabled', 'true'); } link.rel = 'noopener noreferrer'; });
@@ -19,6 +22,7 @@
       const query = normalizeSearch(search ? search.value : ''); let visible = 0;
       const recenter = shouldRecenterSearch(previousQuery, query);
       items.forEach((item) => { const match = matchesSearchRecord(item.dataset.search || item.textContent, query); item.hidden = !match; if (match) visible += 1; });
+      projectGroups.forEach((group) => { const visibleItems = group.querySelectorAll('.resource-item:not([hidden])').length; group.hidden = Boolean(query) && visibleItems === 0; });
       sections.forEach((section) => { const visibleItems = section.querySelectorAll('.resource-item:not([hidden])').length; section.hidden = Boolean(query) && visibleItems === 0; const sectionCount = section.querySelector('.section-visible-count'); if (sectionCount) sectionCount.textContent = String(visibleItems); });
       if (status) { status.hidden = !query; status.textContent = query ? `“${search.value.trim()}” 找到 ${visible} / ${total} 项资源` : ''; }
       if (empty) empty.hidden = !query || visible > 0;
@@ -27,6 +31,22 @@
       previousQuery = query;
     }
     if (search) search.addEventListener('input', updateSearch);
+    focusSearchButtons.forEach((button) => button.addEventListener('click', () => {
+      if (!search) return;
+      search.focus();
+      search.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }));
+    if (hero && root.matchMedia && !root.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      hero.addEventListener('pointermove', (event) => {
+        const rect = hero.getBoundingClientRect();
+        hero.style.setProperty('--pointer-x', `${((event.clientX - rect.left) / rect.width) * 100}%`);
+        hero.style.setProperty('--pointer-y', `${((event.clientY - rect.top) / rect.height) * 100}%`);
+      }, { passive: true });
+      hero.addEventListener('pointerleave', () => {
+        hero.style.setProperty('--pointer-x', '68%');
+        hero.style.setProperty('--pointer-y', '28%');
+      }, { passive: true });
+    }
     doc.addEventListener('keydown', (event) => { const tagName = doc.activeElement ? doc.activeElement.tagName : ''; const editing = tagName === 'INPUT' || tagName === 'TEXTAREA'; if (event.key === '/' && !editing && search) { event.preventDefault(); search.focus(); } if (event.key === 'Escape' && search) { search.value = ''; updateSearch(); search.blur(); } });
     if ('IntersectionObserver' in root) {
       const observer = new IntersectionObserver((entries) => { if (normalizeSearch(search ? search.value : '')) return; const visibleEntry = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]; if (!visibleEntry) return; anchors.forEach((anchor) => { const active = anchor.hash === `#${visibleEntry.target.id}`; anchor.classList.toggle('active', active); if (active) anchor.setAttribute('aria-current', 'location'); else anchor.removeAttribute('aria-current'); }); }, { rootMargin: '-26% 0px -58% 0px', threshold: [0.08, 0.2, 0.45] });

@@ -18,6 +18,28 @@ test('keeps the five continuous resource sections', () => {
   }
 });
 
+test('shows the five business lines with three current projects each', () => {
+  assert.match(html, /id="projects"/);
+  assert.equal(count(/<article class="project-group">/g), 5);
+  assert.equal(count(/class="project-item resource-item"/g), 15);
+  for (const label of ['借条', '奇富生活', '创新中收', '中后台', '品牌＋运营＋企业']) {
+    assert.ok(html.includes(label), `missing project category: ${label}`);
+  }
+});
+
+test('renders project groups as owner-led cards without sequence numbers', () => {
+  const projectSection = html.match(/<section class="project-showcase[\s\S]*?<\/section>/)?.[0] ?? '';
+  assert.ok(projectSection);
+  assert.doesNotMatch(projectSection, /<ol>|<li>|<header><span>0[1-5]<\/span>/);
+  assert.equal((projectSection.match(/class="project-list"/g) ?? []).length, 5);
+  assert.equal((projectSection.match(/class="project-meta"/g) ?? []).length, 15);
+  for (const label of ['交互', 'UI', '设计', '视觉']) assert.ok(projectSection.includes(`<dt>${label}</dt>`));
+  assert.equal((projectSection.match(/<h4><a /g) ?? []).length, 15);
+  assert.match(projectSection, /assets\/platform-figma\.svg/);
+  assert.match(projectSection, /assets\/platform-lanhu\.svg/);
+  assert.doesNotMatch(projectSection, /3 个重点项目/);
+});
+
 test('keeps the complete resource inventory', () => {
   assert.equal(count(/<(?:a|button)[^>]+class="[^"]*platform-card\b/g), 7);
   assert.equal(count(/<article[^>]+class="[^"]*skill-card\b/g), 6);
@@ -51,7 +73,10 @@ test('extracts the visual assets required by the redesign', () => {
     'skill-figma-drawer.jpg',
     'tool-delete-slices.png',
     'tool-sketch-font.png',
-    'tool-font-repair.png'
+    'tool-font-repair.png',
+    'qfin-logo-white.png',
+    'qfin-logo-black.png',
+    'qfin-logo-green.png'
   ];
 
   for (const file of expected) {
@@ -72,27 +97,27 @@ test('keeps the anchor bar and section headings visually concise', () => {
   assert.doesNotMatch(html, /class="anchor-caption"/);
   assert.doesNotMatch(html, />资源目录</);
   assert.equal(count(/class="section-index"/g), 0);
-  assert.equal(count(/<div class="section-heading"><div><h2/g), 5);
+  assert.equal(count(/<div class="section-heading"><div><h2/g), 4);
+  assert.match(html, /class="platform-band shell resource-section"/);
   for (const label of ['DAILY ENTRY POINTS', 'DESIGN CAPABILITY', 'EFFICIENCY TOOLKIT', 'TEAM-OWNED SYSTEM', 'TEAM KNOWLEDGE']) {
     assert.ok(!html.includes(label), `unexpected fragmented heading label: ${label}`);
   }
 });
 
-test('uses the first hero column as a real resource banner instead of a slogan', () => {
-  assert.match(html, /class="hero-banner"[^>]+href="#assets"/);
-  assert.match(html, /本周推荐 · NEW/);
-  assert.match(html, /设计资产管理规范[\s\S]*?2\.0/);
-  assert.match(html, /ASSET[\s\S]*?SYSTEM/);
-  assert.match(html, /27 项资源 · 5 个分类/);
-  assert.match(html, /查看更新内容/);
-  assert.doesNotMatch(html, /class="hero-copy"/);
-  assert.doesNotMatch(html, /找到团队/);
-  assert.doesNotMatch(html, /class="hero-stats"/);
-  assert.doesNotMatch(html, /class="featured-card"/);
+test('uses an Ant Design-inspired brand hero followed by three updates', () => {
+  assert.match(html, /<h1[^>]+id="hero-title"><img[^>]+qfin-logo-white\.png[^>]+alt="QFIN"><span>Design<\/span><\/h1>/);
+  assert.match(html, /让好的设计，持续发生/);
+  assert.equal(count(/class="announcement-card(?: featured)?"/g), 3);
+  assert.match(html, /设计资产管理规范 2\.0/);
+  assert.match(html, /品牌科技主视觉/);
+  assert.match(html, /Qfn-list-page/);
+  assert.match(html, /data-focus-search/);
+  assert.doesNotMatch(html, /class="hero-banner"/);
+  assert.match(css, /\.hero-intro h1 img\s*\{[^}]*height:\s*\.84em/is);
 });
 
 test('marks searchable records and unavailable entries explicitly', () => {
-  assert.equal(count(/class="[^"]*resource-item\b/g), 27);
+  assert.equal(count(/class="[^"]*resource-item\b/g), 42);
   assert.match(html, /aria-disabled="true"/);
   assert.match(html, /class="[^"]*search-empty/);
 });
@@ -120,8 +145,8 @@ test('search helpers normalize and match Chinese and Latin metadata', () => {
 
 test('defines the restrained Linear-inspired color system', () => {
   assert.match(css, /--bg:\s*#08090d/i);
-  assert.match(css, /--surface:\s*#0d0f15/i);
-  assert.match(css, /--accent:\s*#6e72ff/i);
+  assert.match(css, /--surface:\s*#0c0e13/i);
+  assert.match(css, /--accent:\s*#00c873/i);
   assert.match(css, /--line:\s*rgba\(255,\s*255,\s*255,\s*\.0[6-9]\)/i);
 });
 
@@ -134,7 +159,7 @@ test('uses thin lines, sticky anchors, and an explicit focus state', () => {
 test('includes desktop-to-mobile breakpoints and reduced motion', () => {
   assert.match(css, /@media\s*\(max-width:\s*900px\)/i);
   assert.match(css, /@media\s*\(max-width:\s*640px\)/i);
-  assert.match(css, /@media\s*\(max-width:\s*640px\)[\s\S]*?\.banner-copy\s*>\s*strong\s*\{[^}]*font-size:\s*clamp\(36px,\s*10vw,\s*42px\)/i);
+  assert.match(css, /@media\s*\(max-width:\s*640px\)[\s\S]*?\.hero-intro\s+h1\s*\{[^}]*font-size:\s*clamp\(44px,\s*12vw,\s*64px\)/i);
   assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)/i);
 });
 
@@ -146,15 +171,22 @@ test('includes fine-grid and scroll-progress treatments', () => {
 test('uses a numbered positioning rail and editorial resource grids', () => {
   assert.match(css, /\.anchor-nav\s*\{[^}]*counter-reset:\s*resource-nav/is);
   assert.match(css, /\.anchor-nav\s+a::before\s*\{[^}]*counter-increment:\s*resource-nav/is);
-  assert.match(css, /\.platform-grid\s*\{[^}]*grid-template-columns:\s*repeat\(12,/is);
+  assert.match(css, /\.platform-grid\s*\{[^}]*display:\s*flex/is);
   assert.match(css, /\.skills-grid\s*\{[^}]*grid-template-columns:\s*repeat\(12,/is);
   assert.match(css, /\.assets-grid\s*\{[^}]*grid-template-columns:\s*repeat\(6,/is);
   assert.match(css, /\.team-asset:first-child\s*\{[^}]*grid-column:\s*1\s*\/\s*-1/is);
 });
 
-test('turns the featured resource into a system diagram rather than a generic promo tile', () => {
-  assert.match(html, /class="visual-header"/);
-  assert.match(html, /class="visual-orbit"/);
-  for (const label of ['命名', '归档', '复用', '维护']) assert.ok(html.includes(label));
-  assert.match(css, /\.visual-orbit\s*\{[^}]*radial-gradient/is);
+test('places the project matrix between updates and the compact platform strip', () => {
+  assert.match(html, /class="announcement-grid"[\s\S]*?id="projects"[\s\S]*?class="platform-band shell resource-section"/);
+  assert.equal(count(/class="platform-card resource-item"/g), 7);
+  assert.equal(count(/class="platform-symbol(?:\s|\")/g), 7);
+  assert.equal(count(/class="platform-symbol platform-symbol-brand"/g), 2);
+  assert.match(css, /\.platform-symbol svg\s*\{[^}]*stroke-linecap:\s*round/is);
+  assert.match(css, /\.platform-band\.resource-section\s*\{[^}]*display:\s*flex/is);
+  assert.doesNotMatch(css, /\.platform-(?:card|band-label)::after\s*\{/i);
+  assert.match(css, /\.project-showcase\.resource-section\s*\{[^}]*padding:\s*54px 0 8px/is);
+  assert.match(css, /\.platform-band\.resource-section\s*\{[^}]*margin-bottom:\s*28px/is);
+  assert.doesNotMatch(html.match(/<section class="platform-band[\s\S]*?<\/section>/)?.[0] ?? '', /<i>›<\/i>/);
+  assert.match(css, /\.announcement-grid\s*\{[^}]*grid-template-columns:\s*repeat\(3,/is);
 });
