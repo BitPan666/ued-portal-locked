@@ -1,0 +1,38 @@
+{
+  "sheets": [
+    {
+      "name": "借条",
+      "rows": [
+        {
+          "name": "贷后双11红包抽奖活动",
+          "status": "待设计",
+          "updatedAt": "2026-10-30",
+          "confluence": "",
+          "figma": "",
+          "lanhu": ""
+        },
+        {
+          "name": "H5 极限版",
+          "status": "待设计",
+          "updatedAt": "2026-10-27",
+          "confluence": "",
+          "figma": "",
+          "lanhu": ""
+        }
+      ]
+    },
+    {
+      "name": "奇富生活（会员）",
+      "rows": [
+        {
+          "name": "付费抽卡 × 付费券包优化",
+          "status": "待设计",
+          "updatedAt": "2026-10-22",
+          "confluence": "",
+          "figma": "",
+          "lanhu": ""
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+name: Sync design projects
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/30 * * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Fetch and normalize projects
+        env:
+          SYNC_SOURCE_URL: ${{ secrets.SYNC_SOURCE_URL }}
+          SYNC_ACCESS_TOKEN: ${{ secrets.SYNC_ACCESS_TOKEN }}
+        run: node sync/sync-projects.mjs
+      - name: Commit changed cache
+        run: |
+          git config user.name "qfin-sync-bot"
+          git config user.email "qfin-sync-bot@users.noreply.github.com"
+          git add data/projects.json
+          git diff --cached --quiet || git commit -m "data: sync design projects"
+          git push
