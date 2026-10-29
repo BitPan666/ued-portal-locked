@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#08090d">
+  <title>Admin list page generator · 中后台列表页生成 · QFIN Design</title>
+  <meta name="description" content="QFIN 标准桌面端列表页 Skill：支持毓数、金毓盟和电销平台，查看能力说明、安装方式、使用指南与版本记录。">
+  <link rel="icon" type="image/svg+xml" sizes="any" href="../assets/qfin-favicon.svg">
+  <link rel="stylesheet" href="../styles.css?v=959ee16a4dac">
+  <link rel="stylesheet" href="../skill-detail.css?v=a098ef845f8a">
+  <script src="../skill-detail.js?v=878c1fedef3e" defer></script>
+</head>
+<body class="skill-detail-page">
+  <a class="skip-link" href="#main-content">跳到主要内容</a>
+  <header class="site-header">
+    <div class="shell detail-header-inner">
+      <a class="brand" href="../index.html#overview" aria-label="返回 QFIN Design 团队资源平台首页"><img src="../assets/qfin-logo-white.png" alt="QFIN"><span><strong>Design</strong><small>Team resource platform</small></span></a>
+      <a class="detail-back" href="../index.html#skills"><span aria-hidden="true">←</span> 返回设计 Skill</a>
+    </div>
+  </header>
+  <main class="shell detail-shell" id="main-content">
+    <nav class="detail-breadcrumb" aria-label="面包屑"><a href="../index.html#overview">资源首页</a><span aria-hidden="true">/</span><a href="../index.html#skills">设计 Skill</a><span aria-hidden="true">/</span><span aria-current="page">中后台列表页生成</span></nav>
+    <section class="skill-intro" aria-labelledby="skill-title">
+      <div class="skill-intro-main">
+        <div class="skill-title-row"><span class="skill-icon detail-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 9v11m-5-6h18"/></svg></span><div><h1 id="skill-title">中后台列表页生成</h1><p class="skill-title-en" lang="en">Admin list page generator</p><p class="skill-package">BitPan666 / qfin-list-page</p></div></div>
+        <p class="skill-intro-description">把业务需求转成标准桌面端列表页。一个统一入口，按目标平台调用专属规范，支持在 Figma 中创建、更新和检查页面。</p>
+        <div class="skill-meta-tags"><span>UI 设计</span><span>Codex Plugin</span><span>Figma</span><span class="version-tag">v0.1.1</span><span class="skill-updated">更新于 2026.10.14</span></div>
+      </div>
+      <a class="detail-primary-link" href="#usage" data-open-tab="usage">开始使用 <span aria-hidden="true">→</span></a>
+    </section>
+
+    <div class="skill-detail-layout">
+      <div class="skill-document">
+        <div class="detail-tabs" role="tablist" aria-label="Skill 详情" data-tabs="content">
+          <button type="button" role="tab" id="tab-overview" aria-controls="panel-overview" aria-selected="true" data-tab="overview">概述</button>
+          <button type="button" role="tab" id="tab-usage" aria-controls="panel-usage" aria-selected="false" tabindex="-1" data-tab="usage">使用指南</button>
+          <button type="button" role="tab" id="tab-files" aria-controls="panel-files" aria-selected="false" tabindex="-1" data-tab="files">源文件</button>
+          <button type="button" role="tab" id="tab-versions" aria-controls="panel-versions" aria-selected="false" tabindex="-1" data-tab="versions">版本记录</button>
+        </div>
+        <section class="detail-tab-panel" role="tabpanel" id="panel-overview" aria-labelledby="tab-overview" tabindex="0">
+          <h2>一套入口，三套平台规范</h2>
+          <p>日常只需调用 <code>$qfin-list-page</code>。它会根据你指定的平台，选择毓数、金毓盟或电销的一个专属 Skill，并把完整业务需求交给对应平台处理。</p>
+          <div class="capability-list">
+            <div><span class="capability-mark" aria-hidden="true">＋</span><div><h3>创建列表页</h3><p>从导航、筛选项、表格列和操作要求开始，生成标准页面。</p></div></div>
+            <div><span class="capability-mark" aria-hidden="true">↻</span><div><h3>更新已有页面</h3><p>指定目标文件与 Page，按新的业务要求调整列表页。</p></div></div>
+            <div><span class="capability-mark" aria-hidden="true">✓</span><div><h3>检查设计规范</h3><p>由所选平台的 Skill 执行对应的规范检查与结果验收。</p></div></div>
+          </div>
+          <h2>支持的平台</h2>
+          <p>各平台独立维护布局、组件和验收规则，确认目标后仅加载对应的一套规范。</p>
+          <div class="platform-version-table"><table><caption class="visually-hidden">支持的平台与子 Skill 版本</caption><thead><tr><th scope="col">平台</th><th scope="col">专属 Skill</th><th scope="col">版本</th></tr></thead><tbody><tr><th scope="row">毓数</th><td><code>qifu-yushu-list-page</code></td><td>1.3.3</td></tr><tr><th scope="row">金毓盟</th><td><code>qifu-jinyumeng-list-page</code></td><td>1.0.0</td></tr><tr><th scope="row">电销</th><td><code>qifu-dianxiao-list-page</code></td><td>1.0.0</td></tr></tbody></table></div>
+          <div class="detail-note"><strong>先明确目标平台</strong><p>平台缺失、有冲突或不在支持范围内时，会先请你确认。目标文件与 Page 由你指定，读写 Figma 还需连接 Figma 插件并具备编辑权限。</p></div>
+          <details class="detail-example"><summary>查看列表页效果示例 <span aria-hidden="true">＋</span></summary><figure><a href="../assets/skill-qfin-list-page.png" target="_blank" rel="noopener noreferrer"><img src="../assets/skill-qfin-list-page.png" alt="中后台列表页生成示例：金毓盟我的客户页面，展示导航、筛选、表格和分页" loading="lazy"></a><figcaption>团队现有示例 · 点击图片查看原图</figcaption></figure></details>
+        </section>
+
+        <section class="detail-tab-panel" role="tabpanel" id="panel-usage" aria-labelledby="tab-usage" tabindex="0" hidden>
+          <h2>从安装到第一次生成</h2>
+          <ol class="usage-steps">
+            <li><div><h3>安装 QFIN List Page，连接 Figma</h3><p>使用安装区的对话提示词，或在已安装 Codex CLI 的终端执行安装命令。随后安装并授权 Figma 插件，新建任务，通过 @ 选择 Figma 与 QFIN List Page。</p></div></li>
+            <li><div><h3>提供平台和业务需求</h3><p>选择一个目标平台，补充文件、Page、导航、筛选和表格字段。布局与组件规则交给对应平台 Skill。</p></div></li>
+            <li><div><h3>生成后核对结果</h3><p>检查选中的平台、目标位置、业务字段与验收结果。更新页面时，明确要保留和调整的内容。</p></div></li>
+          </ol>
+          <div class="copy-block prompt-block"><div class="code-heading"><h3>可复制的需求模板</h3><button type="button" data-copy-target="usage-prompt">复制模板</button></div><pre id="usage-prompt"><code>@figma
+使用 $qfin-list-page 生成或更新标准桌面端列表页。
+
+目标平台：毓数 / 金毓盟 / 电销（请选择一个）
+目标 Figma 文件：填写链接，或说明需要新建
+目标 Page：填写名称或链接
+页面名称：
+导航路径：
+筛选项：字段、控件类型、默认值
+页面操作：查询、重置、新增、导出等
+表格列：字段、顺序、展示格式、固定列
+选择方式与批量操作：
+行操作与出现条件：
+数据状态：正常 / 空状态 / 加载中 / 异常
+分页要求：
+补充业务说明与验收要求：</code></pre><p class="copy-feedback" role="status" aria-live="polite"></p></div>
+          <p class="detail-source-link"><a href="https://github.com/BitPan666/qfin-list-page/blob/main/plugins/qfin-list-page/skills/qfin-list-page/references/prompt-template.md" target="_blank" rel="noopener noreferrer">查看仓库完整提示词模板 ↗</a></p>
+          <h2>确认安装成功</h2>
+          <ul class="detail-checklist"><li>运行 <code>codex plugin list</code>，确认 QFIN List Page 已安装并启用。</li><li>新任务的 @ 菜单能选到 QFIN List Page 和 Figma。</li><li>目标 Figma 文件可编辑；请求中包含平台、文件、Page 和业务需求。</li></ul>
+        </section>
+
+        <section class="detail-tab-panel" role="tabpanel" id="panel-files" aria-labelledby="tab-files" tabindex="0" hidden>
+          <h2>源文件与维护入口</h2><p>文档、路由规则与版本信息统一在 GitHub 仓库维护。</p>
+          <div class="source-file-list">
+            <a href="https://github.com/BitPan666/qfin-list-page/blob/main/README.md" target="_blank" rel="noopener noreferrer"><span><strong>README.md</strong><small>安装、使用和维护说明</small></span><span aria-hidden="true">↗</span></a>
+            <a href="https://github.com/BitPan666/qfin-list-page/blob/main/plugins/qfin-list-page/skills/qfin-list-page/SKILL.md" target="_blank" rel="noopener noreferrer"><span><strong>SKILL.md</strong><small>统一入口与平台路由规则</small></span><span aria-hidden="true">↗</span></a>
+            <a href="https://github.com/BitPan666/qfin-list-page/blob/main/plugins/qfin-list-page/skills/qfin-list-page/references/prompt-template.md" target="_blank" rel="noopener noreferrer"><span><strong>prompt-template.md</strong><small>完整业务需求提示词模板</small></span><span aria-hidden="true">↗</span></a>
+            <a href="https://github.com/BitPan666/qfin-list-page/blob/main/versions.json" target="_blank" rel="noopener noreferrer"><span><strong>versions.json</strong><small>插件与各平台 Skill 的版本清单</small></span><span aria-hidden="true">↗</span></a>
+            <a href="https://github.com/BitPan666/qfin-list-page/blob/main/CHANGELOG.md" target="_blank" rel="noopener noreferrer"><span><strong>CHANGELOG.md</strong><small>发布记录与变更说明</small></span><span aria-hidden="true">↗</span></a>
+          </div>
+        </section>
+
+        <section class="detail-tab-panel" role="tabpanel" id="panel-versions" aria-labelledby="tab-versions" tabindex="0" hidden>
+          <h2>版本记录</h2><p>以下整理自仓库发布记录，最新变更以原始文档为准。</p>
+          <article class="version-entry"><header><h3>0.1.1 <span>当前仓库版本</span></h3><time datetime="2026-10-14">2026.10.14</time></header><ul><li>毓数更新至 1.3.3；金毓盟、电销更新至 1.0.0。</li><li>金毓盟与电销进入正式使用，目标 Page 由使用者指定。</li><li>补充首次安装、Figma 授权、版本核对和更新说明。</li></ul></article>
+          <article class="version-entry"><header><h3>0.1.0</h3><time datetime="2026-10-14">2026.10.14</time></header><ul><li>建立统一插件入口，包含路由与三个平台 Skill。</li><li>加入发布、单 Skill 恢复及历史版本安装工具。</li></ul></article>
+          <a class="detail-text-link" href="https://github.com/BitPan666/qfin-list-page/blob/main/CHANGELOG.md" target="_blank" rel="noopener noreferrer">查看完整更新日志 ↗</a>
+        </section>
+        <p class="detail-source-note">内容依据 <a href="https://github.com/BitPan666/qfin-list-page" target="_blank" rel="noopener noreferrer">BitPan666/qfin-list-page</a> 整理 · 2026.10.28 核对</p>
+      </div>
+
+      <aside class="skill-install-sidebar" aria-label="安装与 Skill 信息">
+        <section class="install-card" aria-labelledby="install-title">
+          <div class="install-heading"><span class="install-mark" aria-hidden="true">↓</span><div><h2 id="install-title">安装到 Codex</h2><p>安装一次，使用三个平台能力</p></div></div>
+          <div class="install-tabs" role="tablist" aria-label="安装方式" data-tabs="install"><button type="button" role="tab" id="tab-install-prompt" aria-controls="panel-install-prompt" aria-selected="true" data-tab="install-prompt">对话安装</button><button type="button" role="tab" id="tab-install-cli" aria-controls="panel-install-cli" aria-selected="false" tabindex="-1" data-tab="install-cli">命令行</button></div>
+          <div role="tabpanel" id="panel-install-prompt" aria-labelledby="tab-install-prompt"><p class="install-caption">复制后发送到 Codex 新对话。</p><div class="copy-block"><pre id="install-prompt"><code>请从 https://github.com/BitPan666/qfin-list-page 添加插件市场，安装 QFIN List Page，并核对安装版本。请确认已完成插件安装，而不只是添加插件源。</code></pre><button class="copy-primary" type="button" data-copy-target="install-prompt">复制安装提示词 <span aria-hidden="true">⧉</span></button><p class="copy-feedback" role="status" aria-live="polite"></p></div></div>
+          <div role="tabpanel" id="panel-install-cli" aria-labelledby="tab-install-cli" hidden><p class="install-caption">先确认 <code>codex --version</code> 可用。</p><div class="copy-block"><pre id="install-cli"><code>codex plugin marketplace add https://github.com/BitPan666/qfin-list-page.git --ref main
+codex plugin add qfin-list-page@qfin-list-page</code></pre><button class="copy-primary" type="button" data-copy-target="install-cli">复制安装命令 <span aria-hidden="true">⧉</span></button><p class="copy-feedback" role="status" aria-live="polite"></p></div><p class="install-help">第一条添加插件源，第二条完成安装。</p></div>
+          <p class="install-help">Figma 需独立安装和授权；安装完成后请新建 Codex 任务。</p>
+          <a class="repository-link" href="https://github.com/BitPan666/qfin-list-page" target="_blank" rel="noopener noreferrer">查看 GitHub 仓库 <span aria-hidden="true">↗</span></a>
+        </section>
+        <section class="skill-facts" aria-labelledby="skill-facts-title"><h2 id="skill-facts-title">Skill 信息</h2><dl><div><dt>团队维护人</dt><dd>@潘越</dd></div><div><dt>插件版本</dt><dd>0.1.1</dd></div><div><dt>运行环境</dt><dd>Codex + Figma</dd></div><div><dt>支持平台</dt><dd>毓数 / 金毓盟 / 电销</dd></div><div><dt>使用范围</dt><dd><a href="https://github.com/BitPan666/qfin-list-page/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">团队内部使用 ↗</a></dd></div></dl></section>
+      </aside>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="shell"><span>QFIN DESIGN / TEAM RESOURCES</span><a href="../index.html#skills">返回设计 Skill ↑</a></div></footer>
+</body>
+</html>
