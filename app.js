@@ -6,13 +6,12 @@
   function shouldRecenterSearch(previousQuery, nextQuery) { return !normalizeSearch(previousQuery) && Boolean(normalizeSearch(nextQuery)); }
   function initPortal(doc) {
     const search = doc.querySelector('#resource-search');
-    const items = [...doc.querySelectorAll('.resource-item')];
-    const sections = [...doc.querySelectorAll('.resource-section')];
+    const items = [...doc.querySelectorAll('.resource-item')].filter((item) => !item.closest('[inert]'));
+    const sections = [...doc.querySelectorAll('.resource-section:not([inert])')];
     const resourcePanels = [...doc.querySelectorAll('.resource-panel')];
-    const projectGroups = [...doc.querySelectorAll('.project-group')];
+    const projectGroups = [...doc.querySelectorAll('.project-showcase:not([inert]) .project-group')];
     const status = doc.querySelector('.search-status');
     const empty = doc.querySelector('.search-empty');
-    const anchors = [...doc.querySelectorAll('.anchor-nav a')];
     const hero = doc.querySelector('.hero');
     const preview = doc.querySelector('.resource-preview');
     // Interaction demo only. Connect to the authorized worksheet service later.
@@ -96,30 +95,11 @@
       }, { passive: true });
     }
     doc.addEventListener('keydown', (event) => { if (preview && preview.open) return; const tagName = doc.activeElement ? doc.activeElement.tagName : ''; const editing = tagName === 'INPUT' || tagName === 'TEXTAREA'; if (event.key === '/' && !editing && search) { event.preventDefault(); search.focus(); } if (event.key === 'Escape' && search) { search.value = ''; updateSearch(); search.blur(); } });
-    const navSections = anchors.map((anchor) => doc.querySelector(anchor.hash)).filter(Boolean);
-    function updateActiveAnchor() {
-      if (normalizeSearch(search ? search.value : '')) return;
-      const anchorBar = doc.querySelector('.anchor-wrap');
-      const header = doc.querySelector('.site-header');
-      const readingLine = (header ? header.offsetHeight : 0) + (anchorBar ? anchorBar.offsetHeight : 0) + 48;
-      let activeSection = navSections[0];
-      navSections.forEach((section) => { if (!section.hidden && section.getBoundingClientRect().top <= readingLine) activeSection = section; });
-      anchors.forEach((anchor) => {
-        const active = activeSection && anchor.hash === '#' + activeSection.id;
-        anchor.classList.toggle('active', Boolean(active));
-        if (active) anchor.setAttribute('aria-current', 'location');
-        else anchor.removeAttribute('aria-current');
-      });
-    }
     root.addEventListener('scroll', () => {
       const scrollable = doc.documentElement.scrollHeight - root.innerHeight;
       const progress = scrollable > 0 ? root.scrollY / scrollable : 0;
       doc.documentElement.style.setProperty('--scroll-progress', String(progress));
-      updateActiveAnchor();
     }, { passive: true });
-    root.addEventListener('resize', updateActiveAnchor, { passive: true });
-    root.addEventListener('load', updateActiveAnchor, { once: true });
-    updateActiveAnchor();
     updateSearch();
   }
   const api = { normalizeSearch, matchesSearchRecord, isSafeExternalUrl, shouldRecenterSearch, initPortal };
