@@ -19,8 +19,8 @@ test('keeps resource sections and legacy asset and tool anchors', () => {
   }
 });
 
-test('shows the five business lines with three current projects each', () => {
-  assert.match(html, /id="projects"/);
+test('preserves five business lines while hiding the project module', () => {
+  assert.match(html, /id="projects"[^>]*hidden inert/);
   assert.equal(count(/<article class="project-group">/g), 5);
   assert.equal(count(/class="project-item resource-item"/g), 15);
   for (const label of ['借条', '奇富生活', '创新中收', '中后台', '品牌＋运营＋企业']) {
@@ -119,16 +119,13 @@ test('extracts the visual assets required by the redesign', () => {
   }
 });
 
-test('uses semantic landmarks and anchor-only section navigation', () => {
+test('keeps semantic landmarks without the page positioning bar', () => {
   assert.match(html, /<header[^>]+class="[^"]*site-header/);
-  assert.match(html, /<nav[^>]+class="[^"]*anchor-nav/);
   assert.match(html, /<main[^>]+id="main-content"/);
-  const navigation = html.match(/<nav[^>]+class="[^"]*anchor-nav[^>]*>[\s\S]*?<\/nav>/)[0];
-  assert.deepEqual([...navigation.matchAll(/href="#([^"]+)"/g)].map((match) => match[1]), ['skills', 'resources', 'guides']);
-  assert.match(navigation, /<a href="#skills" class="active">设计 Skill<\/a>/);
+  assert.doesNotMatch(html, /class="anchor-(?:nav|wrap)/);
 });
 
-test('keeps the anchor bar and section headings visually concise', () => {
+test('keeps section headings visually concise', () => {
   assert.doesNotMatch(html, /class="anchor-caption"/);
   assert.doesNotMatch(html, />资源目录</);
   assert.equal(count(/class="section-index"/g), 0);
@@ -214,9 +211,8 @@ test('defines the restrained Linear-inspired color system', () => {
   assert.match(css, /--line:\s*rgba\(255,\s*255,\s*255,\s*\.0[6-9]\)/i);
 });
 
-test('uses thin lines, sticky anchors, and an explicit focus state', () => {
+test('uses thin lines and an explicit focus state', () => {
   assert.match(css, /border:\s*1px solid var\(--line\)/i);
-  assert.match(css, /\.anchor-wrap\s*\{[^}]*position:\s*sticky/is);
   assert.match(css, /:focus-visible\s*\{/i);
 });
 
@@ -232,26 +228,18 @@ test('includes fine-grid and scroll-progress treatments', () => {
   assert.match(css, /--scroll-progress/i);
 });
 
-test('uses a numbered positioning rail and editorial resource grids', () => {
-  assert.match(css, /\.anchor-nav\s*\{[^}]*counter-reset:\s*resource-nav/is);
-  assert.match(css, /\.anchor-nav\s+a::before\s*\{[^}]*counter-increment:\s*resource-nav/is);
-  assert.match(css, /\.platform-grid\s*\{[^}]*display:\s*flex/is);
+test('uses responsive resource grids', () => {
+  assert.match(css, /\.platform-grid\s*\{[^}]*display:\s*grid/is);
   assert.match(css, /\.skills-grid\s*\{[^}]*grid-template-columns:\s*repeat\(12,/is);
   assert.match(css, /\.resource-panels\s*\{[^}]*grid-template-columns:\s*repeat\(2,/is);
 });
 
-test('places the project matrix between updates and the compact platform strip', () => {
-  assert.match(html, /class="announcement-grid"[\s\S]*?id="projects"[\s\S]*?class="platform-band shell resource-section"/);
+test('promotes seven platform cards immediately after the hero', () => {
+  assert.match(html, /class="announcement-grid"[\s\S]*?id="platforms"[\s\S]*?id="projects"[^>]*hidden inert/);
   assert.equal(count(/class="platform-card resource-item"/g), 7);
-  assert.equal(count(/class="platform-symbol(?:\s|\")/g), 7);
   assert.equal(count(/class="platform-symbol platform-symbol-brand"/g), 2);
-  assert.match(css, /\.platform-symbol svg\s*\{[^}]*stroke-linecap:\s*round/is);
-  assert.match(css, /\.platform-band\.resource-section\s*\{[^}]*display:\s*flex[^}]*border-bottom:\s*0/is);
-  assert.match(css, /\.platform-card::after\s*\{[^}]*height:\s*18px/is);
-  assert.match(css, /\.project-showcase\.resource-section\s*\{[^}]*padding:\s*54px 0 8px/is);
-  assert.match(css, /\.platform-band\.resource-section\s*\{[^}]*margin-bottom:\s*28px/is);
-  assert.doesNotMatch(html.match(/<section class="platform-band[\s\S]*?<\/section>/)?.[0] ?? '', /<i>›<\/i>/);
-  assert.match(css, /\.announcement-grid\s*\{[^}]*grid-template-columns:\s*repeat\(3,/is);
+  assert.match(css, /\.platform-card small\s*\{[^}]*color:/is);
+  assert.doesNotMatch(css, /\.platform-card small\s*\{[^}]*display:\s*none/is);
 });
 
 test('connects the compact Skill catalog to a deployable detail page and preserves examples', () => {
